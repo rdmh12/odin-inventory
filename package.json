@@ -1,0 +1,27 @@
+{
+  "name": "odin-inventory",
+  "description": "Inventory Application from The Odin Project",
+  "scripts": {
+    "dev": "node --env-file=.env --watch app.js",
+    "format": "prettier * -w -u --no-error-on-unmatched-pattern --log-level error",
+    "lint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdmh12/odin-inventory.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/rdmh12/odin-inventory#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.5.0",
+    "globals": "^17.6.0"
+  }
+}
