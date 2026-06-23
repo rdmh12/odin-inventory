@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import path from "node:path";
 
 import dashboardRouter from "./routes/dashboard.js";
@@ -12,6 +13,13 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(import.meta.dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
 
 app.use("/", dashboardRouter);
 app.use("/category", categoryRouter);

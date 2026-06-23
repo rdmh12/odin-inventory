@@ -1,38 +1,192 @@
-export function list(req, res) {
+import { body, param, validationResult, matchedData } from "express-validator";
+import * as db from "../db/queries.js";
+
+export async function list(req, res) {
+  const categories = await db.getCategoriesList();
+  const message = req.session.message;
+
+  delete req.session.message;
+
+  res.status(message && message.isError ? 400 : 200);
   res.render("index", {
     content: "category-list",
+    categories,
+    message,
   });
 }
 
 export function createGet(req, res) {
-  res.render("index", {
-    content: "category-form",
-    action: "create",
+  renderCategoryForm(res, {
+    actionType: "create",
+    actionTarget: "/category/create",
+    category: {},
+    errors: [],
   });
 }
 
-export function createPost(req, res) {
-  res.send(`POST category-create`);
+export async function createPost(req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return renderCategoryForm(res, {
+      actionType: "create",
+      actionTarget: "/category/create",
+      category: {},
+      errors: errors.array(),
+    });
+  }
+
+  const { name } = matchedData(req);
+
+  try {
+    const result = await db.insertCategory({ name });
+    const { id } = result.rows[0];
+
+    return redirectWithSuccess(
+      req,
+      res,
+      `/category/${id}`,
+      `Created category "${name}" (id: ${id})`,
+    );
+  } catch (err) {
+    return renderCategoryForm(res, {
+      actionType: "create",
+      actionTarget: "/category/create",
+      category: { name },
+      errors: [{ msg: err.message }],
+    });
+  }
 }
 
-export function detail(req, res) {
+export async function detail(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) return next("route");
+
+  const { id } = matchedData(req);
+  const rows = await db.getCategory(id);
+
+  if (rows.length == 0) return next("route");
+
+  const category = rows[0];
+  const items = await db.getItemsForCategory(id);
+  const message = req.session.message;
+
+  delete req.session.message;
+
+  res.status(message && message.isError ? 400 : 200);
   res.render("index", {
     content: "category-detail",
-    id: req.params.id,
+    message,
+    category,
+    items,
   });
 }
 
-export function editGet(req, res) {
-  res.render("index", {
+export async function editGet(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) return next("route");
+
+  const { id } = matchedData(req);
+  const rows = await db.getCategory(id);
+
+  if (rows.length == 0) return next("route");
+
+  return renderCategoryForm(res, {
+    actionType: "edit",
+    actionTarget: `/category/${id}/edit`,
+    category: rows[0],
+    errors: [],
+  });
+}
+
+export async function editPost(req, res, next) {
+  const errors = validationResult(req);
+  const { id, name } = matchedData(req);
+
+  if (!errors.isEmpty()) {
+    return renderCategoryForm(res, {
+      actionType: "edit",
+      actionTarget: `/category/${id}/edit`,
+      category: { name },
+      errors: errors.array(),
+    });
+  }
+
+  try {
+    const result = await db.updateCategory(id, { name });
+
+    if (result.rowCount == 0) return next("route");
+
+    return redirectWithSuccess(
+      req,
+      res,
+      `/category/${id}`,
+      `Updated category "${name}" (id: ${id})`,
+    );
+  } catch (err) {
+    return renderCategoryForm(res, {
+      actionType: "edit",
+      actionTarget: `/category/${id}/edit`,
+      category: { name },
+      errors: [{ msg: err.message }],
+    });
+  }
+}
+
+export async function deletePost(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) return next("route");
+
+  const { id } = matchedData(req);
+  const categoryName = req.body.categoryName;
+  const categoryNameFormatted = `${categoryName ? `"${categoryName}"` : ""} (id: ${id})`;
+
+  try {
+    const result = await db.deleteCategory(id);
+
+    if (result.rowCount != 1) return next("route");
+
+    return redirectWithSuccess(
+      req,
+      res,
+      "/category",
+      `Removed category ${categoryNameFormatted} `,
+    );
+  } catch (err) {
+    return redirectWithError(req, res, "/category", err.message);
+  }
+}
+
+export const idValidator = [param("id").isInt({ min: 1 })];
+
+export const categoryValidator = [
+  body("name").trim().not().isEmpty().withMessage("Category name is required"),
+];
+
+function redirectWithSuccess(req, res, path, message) {
+  req.session.message = { isError: false, text: message };
+  res.redirect(path);
+}
+
+function redirectWithError(req, res, path, message) {
+  req.session.message = { isError: true, text: message };
+  res.redirect(path);
+}
+
+function renderCategoryForm(
+  res,
+  { actionType, actionTarget, category, errors },
+) {
+  const status = errors.length > 0 ? 400 : 200;
+
+  res.status(status).render("index", {
     content: "category-form",
-    action: "edit",
+    actionType,
+    actionTarget,
+    category,
+    errors,
   });
-}
-
-export function editPost(req, res) {
-  res.send(`POST category-edit`);
-}
-
-export function deletePost(req, res) {
-  res.send(`POST category-delete`);
 }

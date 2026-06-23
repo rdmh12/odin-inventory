@@ -1,0 +1,5 @@
+<% if (locals.message) { %>
+<div id="messages">
+  <div class="<%= message.isError ? "error" : "success" %>"><%= message.text %></div>
+</div>
+<% } %>

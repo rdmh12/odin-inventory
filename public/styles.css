@@ -52,8 +52,51 @@ ol {
   list-style: none;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+input[type="text"] {
+  padding: 0.5em;
+}
+
+.inline {
+  display: inline;
+}
+
+.button {
+  background-color: #000;
+  color: #fff;
+  border: 0;
+  text-decoration: none;
+  padding: 0.2em 0.4em;
+  cursor: pointer;
+}
+
+.error,
+.success {
+  color: #fff;
+  padding: 0.35em;
+}
+
+.error {
+  background-color: #fa003f;
+}
+
+.success {
+  background-color: #4cb752;
+}
+
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1em;
+}
+
+th,
+td {
+  padding: 0.25em 1em;
 }

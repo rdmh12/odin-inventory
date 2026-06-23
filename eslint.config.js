@@ -10,4 +10,8 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
   },
   { files: ["**/*.js"], languageOptions: { sourceType: "module" } },
+  {
+    files: ["public/*.js"],
+    languageOptions: { globals: { ...globals.browser } },
+  },
 ]);
