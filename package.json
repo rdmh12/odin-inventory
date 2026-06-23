@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "node --env-file=.env --watch app.js",
     "format": "prettier * -w -u --no-error-on-unmatched-pattern --log-level error",
-    "lint": "eslint"
+    "lint": "eslint",
+    "setup-dev": "node --env-file=.env db/setup-dev.js"
   },
   "repository": {
     "type": "git",
