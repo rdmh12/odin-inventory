@@ -89,6 +89,12 @@ input[type="text"] {
   background-color: #4cb752;
 }
 
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
 main {
   display: flex;
   flex-direction: column;
