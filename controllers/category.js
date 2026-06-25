@@ -1,12 +1,14 @@
 import { body, param, validationResult, matchedData } from "express-validator";
-import { redirectWithSuccess, redirectWithError } from "../utils.js";
+import {
+  redirectWithSuccess,
+  redirectWithError,
+  popMessage,
+} from "../utils.js";
 import * as db from "../db/queries.js";
 
 export async function list(req, res) {
   const categories = await db.getCategoriesList();
-  const message = req.session.message;
-
-  delete req.session.message;
+  const message = popMessage(req);
 
   res.status(message && message.isError ? 400 : 200);
   res.render("index", {
@@ -71,9 +73,7 @@ export async function detail(req, res, next) {
 
   const category = rows[0];
   const items = await db.getItemsForCategory(id);
-  const message = req.session.message;
-
-  delete req.session.message;
+  const message = popMessage(req);
 
   res.status(message && message.isError ? 400 : 200);
   res.render("index", {
