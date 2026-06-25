@@ -62,6 +62,10 @@ input[type="text"] {
   padding: 0.5em;
 }
 
+fieldset {
+  padding: 0.5em;
+}
+
 .inline {
   display: inline;
 }

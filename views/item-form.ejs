@@ -1,1 +1,59 @@
 <h1>item form: <%= action %></h1>
+<%- include("message") %>
+<form method="post" action="<%= actionTarget %>">
+  <label for="name">Name:</label>
+  <input type="text" name="name" id="name" value="<%= item.name %>" required />
+
+  <% if (errors.name) { %>
+  <div class="error"><%= errors.name.msg %></div>
+  <% } %>
+
+  <label for="description">Description:</label>
+  <textarea name="description" id="description">
+<%= item.description %></textarea
+  >
+
+  <label for="price">Price:</label>
+  <input
+    type="number"
+    name="price"
+    id="price"
+    step="0.01"
+    value="<%= item.price %>"
+  />
+  <% if (errors.price) { %>
+  <div class="error"><%= errors.price.msg %></div>
+  <% } %>
+
+  <label for="in-stock">In Stock:</label>
+  <input
+    type="number"
+    name="in_stock"
+    id="in-stock"
+    value="<%= item.in_stock %>"
+  />
+  <% if (errors.in_stock) { %>
+  <div class="error"><%= errors.in_stock.msg %></div>
+  <% } %>
+
+  <fieldset>
+    <legend>Categories</legend>
+
+    <% categories.forEach((category) => { %>
+    <div>
+      <input
+        type="checkbox"
+        id="category-<%= category.id %>"
+        name="categories[]"
+        value="<%= category.id %>"
+        <%= category.selected ? "checked" : "" %>
+      />
+      <label for="category-<%= category.id %>"><%= category.name %></label>
+    </div>
+    <% }); %>
+  </fieldset>
+
+  <button type="submit" class="button">
+    <%= (action == "create") ? "Create" : "Save" %>
+  </button>
+</form>

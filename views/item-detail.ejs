@@ -1,1 +1,39 @@
-<h1>item detail: <%= id %></h1>
+<h1><%= item.name %></h1>
+<%- include("message") %>
+<div>
+  <a href="/item/<%= item.id %>/edit" class="button">Edit</a>
+  <form action="/item/<%= item.id %>/delete" method="post" class="inline">
+    <button type="submit" class="button">Delete</button>
+    <input type="hidden" name="name" value="<%= item.name %>" />
+  </form>
+</div>
+<table>
+  <tr>
+    <th>Description</th>
+    <td><%= item.description ?? "N/A" %></td>
+  </tr>
+  <tr>
+    <th>Price</th>
+    <td><%= item.price ?? "N/A" %></td>
+  </tr>
+  <tr>
+    <th>In Stock</th>
+    <td><%= item.in_stock ?? "N/A" %></td>
+  </tr>
+  <tr>
+    <th>Created</th>
+    <td><%= item.created.toLocaleString() %></td>
+  </tr>
+  <tr>
+    <th>Updated</th>
+    <td><%= item.updated.toLocaleString() %></td>
+  </tr>
+  <tr>
+    <th>Categories</th>
+    <td>
+      <% categories.forEach((category, index) => { %>
+      <a href="/category/<%= category.id %>"><%= category.name %></a><%= (index
+      != categories.length - 1) ? "," : "" %> <% }); %>
+    </td>
+  </tr>
+</table>

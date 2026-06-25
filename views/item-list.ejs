@@ -1,1 +1,19 @@
 <h1>item list</h1>
+<%- include("message") %>
+<a href="/item/create" class="button">Create</a>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>In Stock</th>
+  </tr>
+  <% items.forEach((item) => { %>
+  <tr>
+    <td><%= item.id %>
+    <td><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td><%= item.price ?? "N/A" %></td>
+    <td><%= item.in_stock ?? "N/A" %></td>
+  </tr>
+  <% }); %>
+</table>
