@@ -1,4 +1,5 @@
 import { body, param, validationResult, matchedData } from "express-validator";
+import { redirectWithSuccess, redirectWithError } from "../utils.js";
 import * as db from "../db/queries.js";
 
 export async function list(req, res) {
@@ -165,16 +166,6 @@ export const idValidator = [param("id").isInt({ min: 1 })];
 export const categoryValidator = [
   body("name").trim().not().isEmpty().withMessage("Category name is required"),
 ];
-
-function redirectWithSuccess(req, res, path, message) {
-  req.session.message = { isError: false, text: message };
-  res.redirect(path);
-}
-
-function redirectWithError(req, res, path, message) {
-  req.session.message = { isError: true, text: message };
-  res.redirect(path);
-}
 
 function renderCategoryForm(
   res,
