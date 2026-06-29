@@ -9,6 +9,7 @@
   <tr>
     <th>ID</th>
     <th class="stretch">Name</th>
+    <th>Categories</th>
     <th>Price</th>
     <th>In Stock</th>
   </tr>
@@ -16,6 +17,11 @@
   <tr>
     <td><%= item.id %>
     <td class="stretch"><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td>
+      <% item.categories.forEach((category) => { %>
+      <a href="/category/<%= category.id %>" class="category"><%= category.name %></a>
+      <% }) %>
+    </td>
     <td <%= (!item.price) ? "class=subtle" : "" %>><%= item.price ?? "N/A" %></td>
     <td <%= (!item.in_stock) ? "class=subtle" : "" %>><%= item.in_stock ?? "N/A" %></td>
   </tr>

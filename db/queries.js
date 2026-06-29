@@ -80,6 +80,22 @@ export async function getItemsWithMissingInfo() {
   return rows;
 }
 
+export async function getItemsWithCategories() {
+  const sql = `
+    select item.id, item.name, item.price, item.in_stock,
+      coalesce(
+        json_agg(json_build_object('id', category.id, 'name', category.name))
+        filter (where category.id is not null), '[]') as categories
+    from item
+    left join item_category on item.id = item_id
+    left join category on category.id = category_id
+    group by item.id
+    order by item.name`;
+
+  const { rows } = await pool.query(sql);
+  return rows;
+}
+
 export async function insertCategory(category) {
   const sql = `
     insert into category (name)

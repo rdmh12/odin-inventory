@@ -316,3 +316,13 @@ h2 {
   font-size: 0.7rem;
   font-weight: 700;
 }
+
+.category {
+  background-color: var(--color-gray);
+  color: #fff;
+  padding: 0.3em;
+  border-radius: var(--inner-border-radius);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-decoration: none;
+}

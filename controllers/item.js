@@ -8,7 +8,7 @@ import {
 import * as db from "../db/queries.js";
 
 export async function list(req, res) {
-  const items = await db.getItems();
+  const items = await db.getItemsWithCategories();
   const message = popMessage(req);
 
   render(res, "item-list", {
