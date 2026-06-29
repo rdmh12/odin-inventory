@@ -289,6 +289,7 @@ h1 {
 
 h2 {
   font-size: 1.1rem;
+  margin-top: 0.75rem;
 }
 
 .button {
@@ -305,4 +306,13 @@ h2 {
 
 .content-header .button svg {
   fill: #fff;
+}
+
+.missing-value {
+  background-color: var(--color-red);
+  color: #fff;
+  padding: 0.3em;
+  border-radius: var(--inner-border-radius);
+  font-size: 0.7rem;
+  font-weight: 700;
 }

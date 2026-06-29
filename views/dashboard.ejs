@@ -1,3 +1,59 @@
 <div class="content-header">
   <h1>Dashboard</h1>
 </div>
+
+<h2>Low On Stock</h2>
+
+<table class="list">
+  <tr>
+    <th>ID</th>
+    <th class="stretch">Name</th>
+    <th>In Stock</th>
+  </tr>
+  <% lowOnStockItems.forEach((item) => { %>
+  <tr>
+    <td><%= item.id %>
+    <td class="stretch"><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td <%= (!item.in_stock) ? "class=subtle" : "" %>><%= item.in_stock ?? "N/A" %></td>
+  </tr>
+  <% }); %>
+</table>
+
+<h2>Missing Information</h2>
+<table class="list">
+  <tr>
+    <th>ID</th>
+    <th class="stretch">Name</th>
+    <th>In Stock</th>
+    <th>Price</th>
+  </tr>
+  <% missingInfoItems.forEach((item) => { %>
+  <tr>
+    <td><%= item.id %>
+    <td class="stretch"><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td><span <%= (!item.price) ? "class=missing-value" : "" %>><%= item.price ?? "N/A" %></span></td>
+    <td><span <%= (!item.in_stock) ? "class=missing-value" : "" %>><%= item.in_stock ?? "N/A" %></span></td>
+  </tr>
+  <% }); %>
+</table>
+
+<h2>Recently updated</h2>
+
+<table class="list">
+  <tr>
+    <th>ID</th>
+    <th class="stretch">Name</th>
+    <th>In Stock</th>
+    <th>Price</th>
+    <th>Updated</th>
+  </tr>
+  <% recentItems.forEach((item) => { %>
+  <tr>
+    <td><%= item.id %>
+    <td class="stretch"><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td <%= (!item.price) ? "class=subtle" : "" %>><%= item.price ?? "N/A" %></td>
+    <td <%= (!item.in_stock) ? "class=subtle" : "" %>><%= item.in_stock ?? "N/A" %></td>
+    <td><%= item.updated.toLocaleString() %></td>
+  </tr>
+  <% }); %>
+</table>

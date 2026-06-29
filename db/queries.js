@@ -47,6 +47,39 @@ export async function getItemsForCategory(id) {
   return rows;
 }
 
+export async function getItemsRecentlyUpdated(limit) {
+  const sql = `
+    select id, name, price, in_stock, updated
+    from item
+    order by updated desc
+    limit $1`;
+
+  const { rows } = await pool.query(sql, [limit]);
+  return rows;
+}
+
+export async function getItemsLowOnStock(stockThreshold) {
+  const sql = `
+    select id, name, in_stock
+    from item
+    where in_stock < $1
+    order by in_stock`;
+
+  const { rows } = await pool.query(sql, [stockThreshold]);
+  return rows;
+}
+
+export async function getItemsWithMissingInfo() {
+  const sql = `
+    select id, name, price, in_stock
+    from item
+    where price is null or in_stock is null
+    order by name`;
+
+  const { rows } = await pool.query(sql);
+  return rows;
+}
+
 export async function insertCategory(category) {
   const sql = `
     insert into category (name)
