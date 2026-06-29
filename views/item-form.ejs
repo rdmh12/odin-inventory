@@ -1,6 +1,10 @@
-<h1>item form: <%= action %></h1>
+<div class="content-header">
+  <h1>Create Item</h1>
+</div>
+
 <%- include("message") %>
-<form method="post" action="<%= actionTarget %>">
+
+<form method="post" action="<%= actionTarget %>" class="content-form">
   <label for="name">Name:</label>
   <input type="text" name="name" id="name" value="<%= item.name %>" required />
 
@@ -36,7 +40,7 @@
   <div class="error"><%= errors.in_stock.msg %></div>
   <% } %>
 
-  <fieldset>
+  <fieldset class="grid-stretch">
     <legend>Categories</legend>
 
     <% categories.forEach((category) => { %>

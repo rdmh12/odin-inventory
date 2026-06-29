@@ -1,17 +1,20 @@
-<h1>category list</h1>
-<%- include("message") %>
-<div>
-  <a href="/category/create" class="button">Create</a>
+<div class="content-header">
+<h1>Categories</h1>
+<%- include("create-button", { target: "/category/create", text: "Create Category"}) %>
 </div>
-<table>
+
+<%- include("message") %>
+
+<table class="list">
   <tr>
     <th>ID</th>
-    <th>Name</th>
+    <th class="stretch">Name</th>
+    <th>Items</th>
   </tr>
   <% categories.forEach((category) => { %>
   <tr>
     <td><%= category.id %></td>
-    <td><a href="/category/<%= category.id %>"><%= category.name %></a></td>
+    <td class="stretch"><a href="/category/<%= category.id %>"><%= category.name %></a></td>
     <td><%= category.item_count %></td>
   </tr>
   <% }); %>

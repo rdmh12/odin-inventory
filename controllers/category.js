@@ -11,8 +11,7 @@ export async function list(req, res) {
   const message = popMessage(req);
 
   res.status(message && message.isError ? 400 : 200);
-  res.render("index", {
-    content: "category-list",
+  render(res, "category-list", {
     categories,
     message,
   });
@@ -76,8 +75,7 @@ export async function detail(req, res, next) {
   const message = popMessage(req);
 
   res.status(message && message.isError ? 400 : 200);
-  res.render("index", {
-    content: "category-detail",
+  render(res, "category-detail", {
     message,
     category,
     items,
@@ -167,14 +165,23 @@ export const categoryValidator = [
   body("name").trim().not().isEmpty().withMessage("Category name is required"),
 ];
 
+function render(res, content, locals) {
+  res.render("index", {
+    content,
+    selectedPage: "category",
+    ...locals,
+  });
+}
+
 function renderCategoryForm(
   res,
   { actionType, actionTarget, category, errors },
 ) {
   const status = errors.length > 0 ? 400 : 200;
 
-  res.status(status).render("index", {
-    content: "category-form",
+  res.status(status);
+
+  render(res, "category-form", {
     actionType,
     actionTarget,
     category,

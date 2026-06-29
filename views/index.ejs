@@ -8,15 +8,26 @@
     <script async src="/scripts.js"></script>
   </head>
   <body>
-    <nav>
-      <ul>
-        <li><a href="/">Dashboard</a></li>
-        <li><a href="/category">Categories</a></li>
-        <li><a href="/item">Items</a></li>
-      </ul>
-    </nav>
-    <main>
-      <%- include(`${content}`); %>
-    </main>
+    <div id="root">
+      <nav>
+        <ul>
+          <li <%= selectedPage == "dashboard" ? "class=nav-selected" : "" %>>
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Zm72-360h144v-240H216v240Zm384 288h144v-240H600v240Zm0-479h144v-49H600v49ZM216-216h144v-48H216v48Zm144-288Zm240-191Zm0 239ZM360-264Z"/></svg>
+            <a href="/">Dashboard</a>
+          </li>
+          <li <%= selectedPage == "category" ? "class=nav-selected" : "" %>>
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="m276-528 204-336 204 336H276ZM696-96q-70 0-119-49t-49-119q0-70 49-119t119-49q70 0 119 49t49 119q0 70-49 119T696-96Zm-552-24v-288h288v288H144Zm551.77-48Q736-168 764-195.77q28-27.78 28-68Q792-304 764.23-332q-27.78-28-68-28Q656-360 628-332.23q-28 27.78-28 68Q600-224 627.77-196q27.78 28 68 28ZM216-192h144v-144H216v144Zm188-408h152l-76-125-76 125Zm76 0ZM360-336Zm331 67Z"/></svg>
+            <a href="/category">Categories</a>
+          </li>
+          <li <%= selectedPage == "item" ? "class=nav-selected" : "" %>>
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="M216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-412q-21-8-34.5-26.5T96-648v-144q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v144q0 23-13.5 41.5T816-580v411.86Q816-138 794.85-117T744-96H216Zm0-480v408h528v-408H216Zm-48-72h624v-144H168v144Zm216 240h192v-72H384v72Zm96 36Z"/></svg>
+            <a href="/item">Items</a>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        <%- include(`${content}`); %>
+      </main>
+    </div>
   </body>
 </html>

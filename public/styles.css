@@ -1,3 +1,16 @@
+:root {
+  --color-red: #fa003f;
+  --color-green: #00bb77;
+  --color-blue: #305cde;
+  --color-black: #0b0c27;
+  --content-border-radius: 8px;
+  --color-light-gray: #f4f5fc;
+  --color-gray: #a8aab9;
+  --color-dark-gray: #57576d;
+  --color-gray2: #e8eae9;
+  --inner-border-radius: 5px;
+}
+
 *,
 *::before,
 *::after {
@@ -8,7 +21,11 @@
 
 body {
   min-height: 100vh;
-  font-family: sans-serif;
+  font-family: Inter, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
+  background-color: #e4e5ec;
 }
 
 img {
@@ -42,9 +59,32 @@ h6 {
 input,
 button,
 textarea,
-select {
+select,
+fieldset {
   font-family: inherit;
   font-size: inherit;
+  border: 1px solid var(--color-gray2);
+  border-radius: 5px;
+}
+
+textarea {
+  height: 10em;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+label,
+legend {
+  font-size: 0.9rem;
+  color: var(--color-dark-gray);
+}
+
+fieldset label {
+  color: var(--color-black);
 }
 
 ul,
@@ -52,14 +92,43 @@ ol {
   list-style: none;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+.content-form {
+  display: grid;
+  grid-template-columns: auto 1fr;
   gap: 1em;
+  align-items: center;
+  background-color: #fff;
+  padding: 1em;
+  border-radius: var(--inner-border-radius);
 }
 
-input[type="text"] {
-  padding: 0.5em;
+.content-form button {
+  grid-column: 1/-1;
+  justify-self: center;
+}
+
+.grid-stretch {
+  grid-column: 1/-1;
+}
+
+.content-form > .error {
+  grid-column: 2/-1;
+  font-size: 0.9rem;
+  background: none;
+  color: var(--color-red);
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  padding: 0.25em 0.5em;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: 0;
+  border: 1px solid var(--color-blue);
 }
 
 fieldset {
@@ -85,28 +154,155 @@ fieldset {
   padding: 0.35em;
 }
 
+.error,
+.success {
+  border-radius: var(--inner-border-radius);
+  padding: 1em;
+}
+
 .error {
-  background-color: #fa003f;
+  background-color: var(--color-red);
 }
 
 .success {
-  background-color: #4cb752;
+  background-color: var(--color-green);
+}
+
+.subtle {
+  color: var(--color-gray);
+}
+
+.center {
+  text-align: center;
+}
+
+#root {
+  flex: 1;
+  display: flex;
+  border-radius: var(--content-border-radius);
+  gap: 0.1em;
+  background-color: #f1f0f1;
+}
+
+nav {
+  padding-top: 0.5em;
+  min-width: 200px;
+  background-color: #fff;
+  border-radius: var(--content-border-radius) 0 0 var(--content-border-radius);
 }
 
 nav ul {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 1em;
+  gap: 0.5em;
+}
+
+nav li {
+  padding: 0.75em 0.5em;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+svg {
+  fill: var(--color-black);
+  width: 20px;
+  height: 20px;
+}
+
+nav li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-selected {
+  background-color: #f1f7ff;
+  border-right: 4px solid var(--color-blue);
+  color: var(--color-blue);
+}
+
+.nav-selected svg {
+  fill: var(--color-blue);
 }
 
 main {
+  background-color: var(--color-light-gray);
+  border-radius: 0 var(--content-border-radius) var(--content-border-radius) 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1em;
+  padding: 1em;
+}
+
+table {
+  width: 100%;
+  background-color: #fff;
+  border-radius: var(--inner-border-radius);
+  border-collapse: collapse;
+}
+
+.list td {
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+:where(th, td):not(.stretch) {
+  width: 0;
+  white-space: nowrap;
 }
 
 th,
 td {
-  padding: 0.25em 1em;
+  padding: 0.7em 1em;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+th {
+  color: var(--color-gray);
+  font-weight: normal;
+  text-align: left;
+}
+
+td a {
+  color: var(--color-black);
+}
+
+td a:hover {
+  text-decoration: none;
+}
+
+.content-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+h1 {
+  flex: 1;
+  font-size: 1.3rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+}
+
+.button {
+  font-size: 0.8rem;
+  font-weight: 700;
+  background-color: var(--color-blue);
+  padding: 0.5em 0.75em;
+  border-radius: 5px;
+  border: 1px solid #214dcf;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.content-header .button svg {
+  fill: #fff;
 }

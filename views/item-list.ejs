@@ -1,19 +1,23 @@
-<h1>item list</h1>
+<div class="content-header">
+  <h1>Items</h1>
+  <%- include("create-button", { target: "/item/create", text: "Create Item"}) %>
+</div>
+
 <%- include("message") %>
-<a href="/item/create" class="button">Create</a>
-<table>
+
+<table class="list">
   <tr>
     <th>ID</th>
-    <th>Name</th>
+    <th class="stretch">Name</th>
     <th>Price</th>
     <th>In Stock</th>
   </tr>
   <% items.forEach((item) => { %>
   <tr>
     <td><%= item.id %>
-    <td><a href="/item/<%= item.id %>"><%= item.name %></a></td>
-    <td><%= item.price ?? "N/A" %></td>
-    <td><%= item.in_stock ?? "N/A" %></td>
+    <td class="stretch"><a href="/item/<%= item.id %>"><%= item.name %></a></td>
+    <td <%= (!item.price) ? "class=subtle" : "" %>><%= item.price ?? "N/A" %></td>
+    <td <%= (!item.in_stock) ? "class=subtle" : "" %>><%= item.in_stock ?? "N/A" %></td>
   </tr>
   <% }); %>
 </table>

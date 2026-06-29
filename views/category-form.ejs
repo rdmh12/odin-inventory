@@ -1,8 +1,12 @@
-<h1>category form: <%= actionType %></h1>
+<div class="content-header">
+  <h1><%= (actionType == "create") ? "Create" : "Edit" %> Category</h1>
+</div>
+
 <% errors.length > 0 && errors.forEach((error) => { %>
 <div class="error"><%= error.msg %></div>
 <% }); %>
-<form method="post" action="<%= actionTarget %>">
+
+<form method="post" action="<%= actionTarget %>" class="content-form">
   <label for="name">Name:</label>
   <input type="text" name="name" value="<%= category.name %>" required />
   <button type="submit" class="button">

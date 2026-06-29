@@ -11,8 +11,7 @@ export async function list(req, res) {
   const items = await db.getItems();
   const message = popMessage(req);
 
-  res.render("index", {
-    content: "item-list",
+  render(res, "item-list", {
     items,
     message,
   });
@@ -79,8 +78,7 @@ export async function detail(req, res, next) {
     const categories = await db.getItemCategories(id);
     const message = popMessage(req);
 
-    res.render("index", {
-      content: "item-detail",
+    render(res, "item-detail", {
       item,
       categories,
       message,
@@ -198,26 +196,33 @@ export const itemValidator = [
   body("categories.*").isInt({ min: 1 }),
 ];
 
+function render(res, content, locals) {
+  res.render("index", {
+    content,
+    selectedPage: "item",
+    ...locals,
+  });
+}
+
 function renderForm(
   res,
   { action, item = {}, categories, errors = {}, message = null },
 ) {
-  return res
-    .status(Object.keys(errors).length == 0 ? 200 : 400)
-    .render("index", {
-      content: "item-form",
-      action,
-      actionTarget:
-        action == "create" ? "/item/create" : `/item/${item.id}/edit`,
-      errors,
-      message,
-      categories,
-      item: {
-        name: "",
-        description: "",
-        price: "",
-        in_stock: "",
-        ...item,
-      },
-    });
+  res.status(Object.keys(errors).length == 0 ? 200 : 400);
+
+  render(res, "index", {
+    content: "item-form",
+    action,
+    actionTarget: action == "create" ? "/item/create" : `/item/${item.id}/edit`,
+    errors,
+    message,
+    categories,
+    item: {
+      name: "",
+      description: "",
+      price: "",
+      in_stock: "",
+      ...item,
+    },
+  });
 }
