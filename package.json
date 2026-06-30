@@ -5,7 +5,8 @@
     "dev": "node --env-file=.env --watch app.js",
     "format": "prettier * -w -u --no-error-on-unmatched-pattern --log-level error",
     "lint": "eslint",
-    "setup-dev": "node --env-file=.env db/setup-dev.js"
+    "setup-dev": "node db/setup-dev.js",
+    "setup": "node db/setup.js"
   },
   "repository": {
     "type": "git",
